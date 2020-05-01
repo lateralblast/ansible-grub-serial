@@ -1,33 +1,9 @@
-![alt tag](https://raw.githubusercontent.com/lateralblast/ansible-grub-serial/master/images/cat_cable.jpg)
 
-Automating GRUB serial configuration with Ansible
-=================================================
+- name: update_grub
+  command:     /usr/sbin/update-grub
+  become:      yes
+  become_user: root
 
-Introduction
-------------
-
-This is a quick example of how to automate GRUB serial configuration with Ansible
-
-Requirements
-------------
-
-Required software:
-
-- Ansible
-- setserial packages
-
-Overview
---------
-
-This example does the following:
-
-- Run setserial to get the serial port details
-- Update GRUB configuration file if required
-- Update GRUB if required
-
-Run setserial to get the serial port details:
-
-```
 - name: Check Serial TTY
   shell: |
          set -o pipefail
@@ -43,11 +19,7 @@ Run setserial to get the serial port details:
   args:
     executable: /bin/bash
   register: serial_port
-```
 
-Update GRUB configuration file if required:
-
-```
 - name: Check GRUB
   lineinfile:
     path:   /etc/default/grub
@@ -64,13 +36,3 @@ Update GRUB configuration file if required:
     - { regex: "GRUB_TERMINAL_INPUT",   line: 'GRUB_TERMINAL_INPUT="console serial"' }
     - { regex: "GRUB_TERMINAL_OUTPUT",  line: 'GRUB_TERMINAL_OUTPUT="console serial"' }
     - { regex: "GRUB_GFXPAYLOAD_LINUX", line: 'GRUB_GFXPAYLOAD_LINUX=text' }
-```
-
-Update GRUB if required:
-
-```
-- name: update_grub
-  command:     /usr/sbin/update-grub
-  become:      yes
-  become_user: roo
-```

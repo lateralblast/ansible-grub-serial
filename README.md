@@ -72,5 +72,5 @@ Update GRUB if required:
 - name: update_grub
   command:     /usr/sbin/update-grub
   become:      yes
-  become_user: roo
+  become_user: root
 ```
